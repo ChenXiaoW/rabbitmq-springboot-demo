@@ -22,7 +22,9 @@ public class ProducterSender {
 
     @Autowired
     RabbitTemplate rabbitTemplate;
-
+    /**
+     * confirm 确认，
+     */
     final RabbitTemplate.ConfirmCallback confirmCallback = new RabbitTemplate.ConfirmCallback() {
         @Override
         public void confirm(CorrelationData correlationData, boolean ack, String cause) {
@@ -30,11 +32,13 @@ public class ProducterSender {
                 log.info("消息发送成功:correlationData({}),ack({}),cause({})",correlationData,ack,cause);
             }else{
                 //找不到Exchange就会失败
-                log.error("消息发送失败:correlationData({}),ack({}),cause({})",correlationData,ack,cause);
+                log.error("消息发送到Exchange失败:correlationData({}),ack({}),cause({})",correlationData,ack,cause);
             }
         }
     };
-
+    /**
+     * return 回调
+     */
     final RabbitTemplate.ReturnCallback returnCallback = new RabbitTemplate.ReturnCallback() {
         @Override
         public void returnedMessage(Message message, int replyCode, String replyText, String exchange, String routingKey) {

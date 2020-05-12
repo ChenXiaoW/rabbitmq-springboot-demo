@@ -21,7 +21,14 @@ import java.util.Map;
 @Component("Consumer2")
 public class Consumer {
 
-
+    /**
+     * 监听队列
+     *
+     * @param user 用户对象
+     * @param headers 消息头
+     * @param channel
+     * @throws Exception
+     */
     @RabbitListener(bindings = @QueueBinding(value = @Queue(value = "springboot.demo3.queue",durable = "true",autoDelete="false"),
             exchange = @Exchange(value = "springboot.demo3",durable = "true",type = "direct",ignoreDeclarationExceptions = "false"),key = "springboot.demo3.key"))
     @RabbitHandler
