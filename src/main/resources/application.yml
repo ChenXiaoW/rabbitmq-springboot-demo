@@ -1,0 +1,26 @@
+spring:
+  rabbitmq:
+    host: 127.0.0.1
+    port: 5672
+    username: guest
+    password: guest
+    virtual-host: test
+    # 生产端配置
+    publisher-returns: true       #配置开启return消息机制
+    publisher-confirm-type: correlated #配置开启confirm消息确认模式
+    #消费端配置
+    listener:
+      type: simple  # 侦听器类型
+      simple:
+        acknowledge-mode: manual #开启手工确认
+        prefetch: 1 #每次消费的消息个数，也就是qps
+        concurrency: 3 # 侦听的最小队列数量
+        max-concurrency: 5 #侦听的最大队列数量
+      #重试机制
+        retry:
+          enabled: false # 是否开启
+          max-attempts: 5 # 最大尝试次数
+          stateless: false  # 重试是有状态还是无状态
+          multiplier: 1.0 # 重试间隔乘数因子
+          initial-interval: 1000ms #第一次与第二次的重试持续时间
+          max-interval: 10000ms #两次最大重试持续时间
